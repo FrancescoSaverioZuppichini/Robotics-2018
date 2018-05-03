@@ -10,16 +10,18 @@
     breaklines=true
     }
 \title{Robotics - Assignment 2}
-\author{Francesco Saverio Zuppichini}
+\author{Francesco Saverio Zuppichini, Alessia Ruggeri}
 \begin{document}
 \maketitle
 \section{How to run}
 \subsection{Gazebo}
+In order to launch the Gazebo environment, you need to run:
 \begin{lstlisting}
-$  roslaunch thymio_course_skeleton custom_world.launch name:=thymio10 world:=wall	
+$  roslaunch thymio_course_skeleton
+	custom_world.launch name:=thymio10 world:=wall	
 \end{lstlisting}
 \subsection{Code}
-Assuming you are in the correct working repo. If needed, uncomment the first exercise code and run
+Assuming you are in the correct working repository, uncomment the first exercise code if needed and run:
 \begin{lstlisting}
 $ python3 main.py	
 \end{lstlisting}
@@ -45,7 +47,7 @@ def __init__(self, thymio_name, hooks=[]):
 	# ...
 \end{python}
 
-Then, in the \texttt{update\_state} function we iterate trough the hooks and call the \texttt{on\_update\_pose} passing the thymio instance. In this way, we can dynamically switch the robot's behaviour.
+Then, in the \texttt{update\_state} function, we iterate trough the hooks and call the \texttt{on\_update\_pose} passing the thymio instance. In this way, we can dynamically switch the robot's behavior.
 %The following class implements the write\-eight functionality:
 
 \begin{python}
@@ -88,10 +90,13 @@ class EigthWriter(Hook):
         self.has_finished =  self.count == 2
 	
 \end{python}
-Basically, we check when we start to move and, after we reach again the initial position, we change the angular velocity to draw the second zero. You can find the video of the \texttt{rviz} at the following link (it was too big for iCorsi):
-https://drive.google.com/open?id=180JgrrSszP0WiqxDNdxkJFy6d1ov2-rN
+In order to write the eight, we check the position from which the robot start to move and, after the robot has written the first circle and has reached again the initial position, we change the angular velocity to its opposite to draw the second circle.
+
+You can find the video of the \texttt{rviz} at the following link (it was too big for iCorsi):\\
+\texttt{https://drive.google.com/drive/folders/\\1UzEzDunEO9QfnxQmKhe9UG0ZlbFhpR2a?usp=sharing}
+
 \section{Exercise 2}
-Before doing anything, we need to get the data from the sensor. Using some python tricks, we define a callback function that is able to take the sensor data, its id and its name. The callback function looks like:
+Before doing anything, the thymio needs to get the data from the sensor. Using some python tricks, we defined a callback function that is able to take the sensor data, its id and its name. The callback function looks like:
 
 \begin{python}
  def sensors_callback(self, data, sensor_id, name):
@@ -104,7 +109,7 @@ Before doing anything, we need to get the data from the sensor. Using some pytho
             pass	
 \end{python}
 
-After that, similar to what we did before, we create a new hook, \texttt{GoCloseTurnAndGoForward}, that will be response to actually move the robot.
+After that, similar to what we did before, we created a new hook, \\\texttt{GoCloseTurnAndGoForward}, that will be responsible to actually move the robot.
 
 \begin{python}
 class GoCloseTurnAndGoForward(Hook):
@@ -174,10 +179,18 @@ class GoCloseTurnAndGoForward(Hook):
 
 \end{python}
 We used a PID controller to turn the robot to face the wall. However, the parameters could be tuned better. You can also find a old implementation that uses a bang-bang controller.
-\section{Exercise 3}
-We extended the \texttt{GoCloseTurnAndGoForward} to add this functionality, the code is in the previous section. We faced one main problem: the rear sensors were not working. Basically, the \texttt{range} value was always equal to the \texttt{max\_range}. So we decide to use an open loop approach and just turn the robot for the correct amount of time.
 
-\section{Bonus - Exercise 1}
+\section{Exercise 3}
+We extended the \texttt{GoCloseTurnAndGoForward} to add this functionality, the code is in the previous section. We faced one main problem: the rear sensors were not working. Basically, the \texttt{range} value was always equal to the \texttt{max\_range}. So we decided to use an open loop approach and just turn the robot for the correct amount of time.
+
+\section{Bonus - Exercise 4}
+For the first bonus exercise using the real thymio, we faced some problems with the position error, which in the real world is obviously bigger than in the simulator. For this reason, we needed to increase the error tolerance to make it work.
+
+\section{Bonus - Exercise 5}
+There is a big difference between the simulator and the real thymio data. In the first case, when there is nothing in front of the thymio, the range is set to \texttt{max\_range}, but in the real world it is set to \texttt{inf}. Moreover, when an object is closer than 1 cm, the data is \texttt{-inf} while in the simulator we still have the correct number. For this reasons, we needed to change the code to make it work. You can find a first draft of the new code inside the \texttt{core/after\_bonus} folder. We faced also problems with the thymio that was not working, as you can read on the forum, and we were also not able to stop the robot by using the rospy.on\_shutdown routine, so we had to restart the machine everytime, loosing around 5/10 minutes for each try. We still hope to get some bonus points for the second parts since we tried hard to fix it.
+
+All the code can be found in the GitHub repository:\\
+\texttt{https://github.com/FrancescoSaverioZuppichini/Robotics-2018.git}
 
 \end{document}
 
