@@ -6,14 +6,18 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{pythonhighlight}
-
+\lstset{    %basicstyle=\color{red},
+    breaklines=true
+    }
 \title{Robotics - Assignment 2}
 \author{Francesco Saverio Zuppichini}
 \begin{document}
 \maketitle
 \section{How to run}
 \subsection{Gazebo}
-
+\begin{lstlisting}
+$  roslaunch thymio_course_skeleton custom_world.launch name:=thymio10 world:=wall	
+\end{lstlisting}
 \subsection{Code}
 Assuming you are in the correct working repo. If needed, uncomment the first exercise code and run
 \begin{lstlisting}
@@ -85,7 +89,7 @@ class EigthWriter(Hook):
 	
 \end{python}
 Basically, we check when we start to move and, after we reach again the initial position, we change the angular velocity to draw the second zero. You can find the video of the \texttt{rviz} at the following link (it was too big for iCorsi):
-
+https://drive.google.com/open?id=180JgrrSszP0WiqxDNdxkJFy6d1ov2-rN
 \section{Exercise 2}
 Before doing anything, we need to get the data from the sensor. Using some python tricks, we define a callback function that is able to take the sensor data, its id and its name. The callback function looks like:
 
